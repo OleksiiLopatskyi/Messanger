@@ -67,6 +67,7 @@ namespace Message.Controllers
                     {
                         Username = model.Name,
                         Password = model.Password,
+                        PhotoUrl=model.Photo
                     };
                     Role role = await db.Roles.FirstOrDefaultAsync(i => i.Name == "user");
                     if (role != null)
