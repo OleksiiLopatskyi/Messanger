@@ -1,0 +1,21 @@
+﻿@model Chat
+
+<h1>Chat</h1>
+<h2>You</h2>
+<form method="post" asp-action="SendMessage">
+    @if (Model.UserWith.Username == User.Identity.Name)
+    {
+        <h2>@Model.UserMe.Username</h2>
+    }
+    else
+    {
+        <h2>@Model.UserWith.Username</h2>
+
+    }
+    @foreach (var item in Model.Messages)
+	{
+		<p>@item.Text</p>
+	}
+    <input name="message" type="text" />
+    <input type="submit" value="Submit"/>
+</form>
