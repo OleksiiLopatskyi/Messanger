@@ -1,4 +1,5 @@
 ﻿using Message.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,7 @@ namespace Message.Controllers
             _db = context;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var user = _db.Users.FirstOrDefault(i=>i.Username==User.Identity.Name); 
