@@ -9,6 +9,7 @@ namespace Message.Models
     {
         public int Id { get; set; }
         public int ChatId { get; set; }
+        public string Date { get; set; }
         public User From { get; set; }
         public User To { get; set; }
         public string Text { get; set; }
