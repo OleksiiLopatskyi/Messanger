@@ -1,43 +1,66 @@
-﻿@model Chat
+﻿@model Message.ViewModels.ChatViewModel
 <head>
     <link href="~/css/MessageBox.css" rel="stylesheet" />
 </head>
     <center>
-        <h1>Chat</h1>
-        <h2>You</h2>
-        <form method="post" asp-action="SendMessage">
-            @if (Model.UserWith.Username == User.Identity.Name)
-            {
-                <h2>@Model.UserMe.Username</h2>
-            }
-            else
-            {
-                <h2>@Model.UserWith.Username</h2>
+        <div id="container">
+            <aside>
+                <header>
+                    <input type="text" placeholder="search">
+                </header>
+                <ul style="text-align: left; overflow-y: hidden;">
+                    @foreach (var item in Model.Users)
+                    {
+                        <a asp-action="ChatName" asp-route-name="@item.Username">
+                        <li>
+                            <img src="@item.PhotoUrl" style="width:50px;height:50px;" alt="">
+                            <div>
+                                <h2>@item.Username</h2>
+                                <h3>
+                                    <span class="status orange"></span>
+                                    offline
+                                </h3>
+                            </div>
+                        </li>
+                        </a>
+                    }
+                </ul>
+            </aside>
+                @await Html.PartialAsync("ChatBox", model: Model.Chat)
+               
 
-            }
-            <div class="container">
-                @foreach (var item in Model.Messages)
+        </div>
+            @*     @if (Model.UserWith.Username == User.Identity.Name)
+        {
+            <h2>@Model.UserMe.Username</h2>
+        }
+        else
+        {
+            <h2>@Model.UserWith.Username</h2>
+
+        }
+        <div class="container">
+            @foreach (var item in Model.Messages)
+            {
+
+
+                @if (item.From.Username == User.Identity.Name)
                 {
-
-
-                    @if (item.From.Username == User.Identity.Name)
-                    {
-                        <div class="message-blue">
-                            <p class="message-content">@item.Text</p>
-                            <div class="message-timestamp-left">@item.Date.</div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="message-orange">
-                            <p class="message-content">@item.Text</p>
-                            <div class="message-timestamp-right">@item.Date</div>
-                        </div>
-                    }
-
+                    <div class="message-blue">
+                        <p class="message-content">@item.Text</p>
+                        <div class="message-timestamp-left">@item.Date.</div>
+                    </div>
                 }
-               </div>
-                <input name="message" type="text" />
-                <input type="submit" value="Submit" />
-        </form>
+                else
+                {
+                    <div class="message-orange">
+                        <p class="message-content">@item.Text</p>
+                        <div class="message-timestamp-right">@item.Date</div>
+                    </div>
+                }
+
+            }
+           </div>
+            <input name="message" type="text" />
+            <input type="submit" value="Submit" />*@
         </center>

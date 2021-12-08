@@ -1,4 +1,5 @@
 ﻿using Message.Models;
+using Message.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,12 +19,32 @@ namespace Message.Controllers
             _db = context;
 
         }
-        [Route("[controller]/[action]/{name}")]
-        public async Task<IActionResult> Index(string name)
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(i => i.Username == User.Identity.Name);
+            ChatViewModel model = new ChatViewModel
             {
+                Users = _db.Users.Where(i => i.Id != user.Id),
+                Chat=null
+            };
+            return View(model);
+        }
+        [Route("[controller]/[action]/{name}")]
+        public async Task<IActionResult> ChatName(string name)
+        {
+            if (name == null)
+            {
+                return View(_db.Chats.Include(i => i.Messages).FirstOrDefault(i => i.Id == Chat.Id));
+            }
             UserMe = await _db.Users.FirstOrDefaultAsync(i => i.Username == User.Identity.Name);
             UserTo = await _db.Users.FirstOrDefaultAsync(i => i.Username == name);
-            Chat = await _db.Chats.FirstOrDefaultAsync(i => i.UserWith == UserTo && i.UserMe == UserMe || i.UserMe == UserTo && i.UserWith == UserMe);
+            Chat =  _db.Chats.Include(i=>i.Messages).FirstOrDefault(i => i.UserWith == UserTo && i.UserMe == UserMe || i.UserMe == UserTo && i.UserWith == UserMe);
+            ChatViewModel model = new ChatViewModel
+            {
+                Users = _db.Users.Where(i => i.Id != UserMe.Id),
+                Chat = Chat
+            };
             if (Chat == null)
             {
                 Chat chat = new Chat()
@@ -34,14 +55,15 @@ namespace Message.Controllers
                 Chat = chat;
                 await _db.Chats.AddAsync(chat);
                 _db.SaveChanges();
-                return View(chat);
+                return View("Index",model);
             }
-
-            return View(_db.Chats.Include(i=>i.Messages).FirstOrDefault(i => i.Id == Chat.Id));
+           
+            return View("Index",model);
         }
         [HttpPost]
         public  IActionResult SendMessage(string message)
         {
+
             MessageModel newMessage = new MessageModel
             {
                 From = UserMe,
@@ -53,7 +75,7 @@ namespace Message.Controllers
             Chat.Messages.Add(newMessage);
             _db.Update(Chat);
             _db.SaveChanges();
-            return RedirectToAction("Index",new {name=UserTo.Username});
+            return RedirectToAction("ChatName",new {name=UserTo.Username});
         }
 
     }

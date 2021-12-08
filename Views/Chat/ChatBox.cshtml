@@ -1,0 +1,96 @@
+﻿@model Chat
+<style>
+    .button {
+        position: relative;
+        display: block;
+        width: 200px;
+        height: 36px;
+        border-radius: 18px;
+        background-color: #1c89ff;
+        border: solid 1px transparent;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 300;
+        cursor: pointer;
+        transition: all .1s ease-in-out;
+    }
+
+        .button:hover {
+            background-color: transparent;
+            border-color: #1c89ff;
+            transition: all .1s ease-in-out;
+        }
+    
+</style>
+<main>
+    @if (Model != null) {
+    <header>
+        @if (User.Identity.Name != Model.UserWith.Username)
+        {
+            <img src="@Model.UserWith.PhotoUrl" style="width:50px;height:50px">
+            <div>
+                <h2>@Model.UserWith.Username</h2>
+                <h3>already @Model.Messages.Count messages</h3>
+            </div>
+        }
+        else
+        {
+            <img src="@Model.UserMe.PhotoUrl" style="width:50px;height:50px">
+            <div>
+                <h2>@Model.UserMe.Username</h2>
+                <h3>already @Model.Messages.Count messages</h3>
+            </div>
+        }
+
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
+    </header>
+
+    }
+    <ul id="chat">
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Messages)
+            {
+                @if (item.To.Username != User.Identity.Name)
+                {
+                    <li class="me">
+                        <div class="entete">
+                            <span class="status blue"></span>
+                            <h3>@item.Date</h3>
+                            <h2>@item.From.Username</h2>
+                        </div>
+                        <div class="triangle"></div>
+                        <div class="message">
+                            @item.Text
+                        </div>
+                    </li>
+
+                }
+                else
+                {
+                    <li class="you" style="text-align:left">
+                        <div class="entete">
+                            <span class="status green">
+                            </span>
+                            <h2>@item.From.Username</h2>
+                            <h3>@item.Date</h3>
+                        </div>
+                        <div class="triangle"></div>
+                        <div class="message">
+                            @item.Text
+                        </div>
+                    </li>
+                }
+            }
+        }
+
+
+    </ul>
+    <form asp-action="SendMessage" asp-controller="Chat">
+        <footer>
+            <textarea required name="message" placeholder="Type your message"></textarea>
+            <button class="button" type="submit"><span id="SendText">Send</span></button>
+        </footer>
+    </form>
+
+</main>

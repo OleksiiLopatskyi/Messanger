@@ -14,13 +14,15 @@
     <form class="form-register" asp-action="Register" asp-controller="Account" method="post">
         <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please registrate</h1>
-     
+
         <label asp-for="Name" class="sr-only">Username</label>
         <input asp-for="Name" id="inputEmail" class="form-control" placeholder="Username"><br>
         <span asp-validation-for="Name"></span>
         <label asp-for="Password" class="sr-only">Password</label>
         <input asp-for="Password" id="inputPassword" class="form-control" placeholder="Password"><br>
         <span asp-validation-for="Password"></span>
+        <label asp-for="Photo" class="sr-only">Password</label>
+        <input asp-for="Photo" id="inputPassword" class="form-control" placeholder="Password"><br>
         <br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
         <div class="checkbox mb-3">
