@@ -1,7 +1,6 @@
 ﻿* {
     box-sizing: border-box;
 }
-
 body {
     background-color: #abd9e9;
     font-family: Arial;
@@ -163,7 +162,7 @@ main header {
     padding-left: 0;
     margin: 0;
     list-style-type: none;
-    overflow-y: scroll;
+    overflow-y:scroll;
     height: 535px;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #fff;
@@ -200,6 +199,7 @@ main header {
     #chat .me {
         text-align: right;
     }
+
     #chat .you .message {
         background-color: #58b666;
     }
@@ -238,7 +238,7 @@ main footer {
         height: 80px;
         border-radius: 3px;
         padding: 20px;
-        font-size: 13px;
+        font-size: 20px;
         margin-bottom: 13px;
     }
 

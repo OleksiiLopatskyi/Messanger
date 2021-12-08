@@ -3,20 +3,17 @@
     <link href="~/css/MessageBox.css" rel="stylesheet" />
 </head>
     <center>
-        <h1>Chat</h1>
-        <h2>You</h2>
-
         <div id="container">
             <aside>
                 <header>
                     <input type="text" placeholder="search">
                 </header>
-                <ul>
+                <ul style="text-align: left; overflow-y: hidden;">
                     @foreach (var item in Model.Users)
                     {
                         <a asp-action="ChatName" asp-route-name="@item.Username">
                         <li>
-                            <img src="@item.PhotoUrl" style="width:50px;" alt="">
+                            <img src="@item.PhotoUrl" style="width:50px;height:50px;" alt="">
                             <div>
                                 <h2>@item.Username</h2>
                                 <h3>

@@ -40,6 +40,11 @@ namespace Message.Controllers
             UserMe = await _db.Users.FirstOrDefaultAsync(i => i.Username == User.Identity.Name);
             UserTo = await _db.Users.FirstOrDefaultAsync(i => i.Username == name);
             Chat =  _db.Chats.Include(i=>i.Messages).FirstOrDefault(i => i.UserWith == UserTo && i.UserMe == UserMe || i.UserMe == UserTo && i.UserWith == UserMe);
+            ChatViewModel model = new ChatViewModel
+            {
+                Users = _db.Users.Where(i => i.Id != UserMe.Id),
+                Chat = Chat
+            };
             if (Chat == null)
             {
                 Chat chat = new Chat()
@@ -50,13 +55,9 @@ namespace Message.Controllers
                 Chat = chat;
                 await _db.Chats.AddAsync(chat);
                 _db.SaveChanges();
-                return View(chat);
+                return View("Index",model);
             }
-            ChatViewModel model = new ChatViewModel
-            {
-                Users= _db.Users.Where(i => i.Id != UserMe.Id),
-                Chat=Chat
-            };
+           
             return View("Index",model);
         }
         [HttpPost]
