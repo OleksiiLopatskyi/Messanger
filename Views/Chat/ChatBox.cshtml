@@ -20,76 +20,105 @@
             border-color: #1c89ff;
             transition: all .1s ease-in-out;
         }
-    
 </style>
-<main>
-    @if (Model != null) {
-    <header>
-        @if (User.Identity.Name != Model.UserWith.Username)
-        {
-            <img src="@Model.UserWith.PhotoUrl" style="width:50px;height:50px">
-            <div>
-                <h2>@Model.UserWith.Username</h2>
-                <h3>already @Model.Messages.Count messages</h3>
-            </div>
-        }
-        else
-        {
-            <img src="@Model.UserMe.PhotoUrl" style="width:50px;height:50px">
-            <div>
-                <h2>@Model.UserMe.Username</h2>
-                <h3>already @Model.Messages.Count messages</h3>
-            </div>
-        }
+<head>
+    <script>
+        $(document).ready(function (e) {
+            $('#SendMessageButton').click(function (e) {
+                e.preventDefault();
+                var text = $('#MessageText').val();
+                $('#chat').load('@Url.Action("SendMessage")?message=' + text);
+               @* $.ajax({
+                    url: 'url',
+                    dataType: 'html',
+                    method:"POST",
+                    success: function (data) {
+                        $('#main').html(data);
+                    }
+                });*@
+            });
+        });
+    </script>
+</head>
+<main id="main">
+    @if (Model != null)
+    {
+        <header>
+            @if (User.Identity.Name != Model.UserWith.Username)
+            {
+                <img src="@Model.UserWith.PhotoUrl" style="width:50px;height:50px">
+                <div>
+                    <h2>@Model.UserWith.Username</h2>
+                    <h3>already @Model.Messages.Count messages</h3>
+                </div>
+            }
+            else
+            {
+                <img src="@Model.UserMe.PhotoUrl" style="width:50px;height:50px">
+                <div>
+                    <h2>@Model.UserMe.Username</h2>
+                    <h3>already @Model.Messages.Count messages</h3>
+                </div>
+            }
 
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
-    </header>
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
+        </header>
 
     }
-    <ul id="chat">
-        @if (Model != null)
-        {
-            @foreach (var item in Model.Messages)
-            {
-                @if (item.To.Username != User.Identity.Name)
-                {
-                    <li class="me">
-                        <div class="entete">
-                            <span class="status blue"></span>
-                            <h3>@item.Date</h3>
-                            <h2>@item.From.Username</h2>
-                        </div>
-                        <div class="triangle"></div>
-                        <div class="message">
-                            @item.Text
-                        </div>
-                    </li>
+    @if (Model.Messages.Count == 0)
+    {
+        <div id="results"></div>
 
-                }
-                else
+    }
+    else
+    {
+        <ul id="chat">
+            @if (Model != null)
+            {
+                @foreach (var item in Model.Messages)
                 {
-                    <li class="you" style="text-align:left">
-                        <div class="entete">
-                            <span class="status green">
-                            </span>
-                            <h2>@item.From.Username</h2>
-                            <h3>@item.Date</h3>
-                        </div>
-                        <div class="triangle"></div>
-                        <div class="message">
-                            @item.Text
-                        </div>
-                    </li>
+                    @if (item.To.Username != User.Identity.Name)
+                    {
+                        <li class="me">
+                            <div class="entete">
+                                <span class="status blue"></span>
+                                <h3>@item.Date</h3>
+                                <h2>@item.From.Username</h2>
+                            </div>
+                            <div class="triangle"></div>
+                            <div class="message">
+                                @item.Text
+                            </div>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="you" style="text-align:left">
+                            <div class="entete">
+                                <span class="status green">
+                                </span>
+                                <h2>@item.From.Username</h2>
+                                <h3>@item.Date</h3>
+                            </div>
+                            <div class="triangle"></div>
+                            <div class="message">
+                                @item.Text
+                            </div>
+                        </li>
+                    }
                 }
             }
-        }
 
 
-    </ul>
-    <form asp-action="SendMessage" asp-controller="Chat">
-        <footer>
+        </ul>
+    }
+
+    <footer>
+        <form id="SendForm" asp-action="SendMessage">
             <textarea id="MessageText" required name="message" placeholder="Type your message"></textarea>
-            <button class="button" id="SendMessage" >Send</button>
-        </footer>
-    </form>
+            <input class="button" id="SendMessageButton" value="Send" />
+        </form>
+    </footer>
 </main>
+

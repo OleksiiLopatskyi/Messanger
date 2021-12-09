@@ -55,12 +55,12 @@ namespace Message.Controllers
                 Chat = chat;
                 await _db.Chats.AddAsync(chat);
                 _db.SaveChanges();
-                return View("Index",model);
+                return View("ChatBox",model);
             }
            
             return PartialView("ChatBox",model.Chat);
         }
-        [HttpPost]
+     
         public  IActionResult SendMessage(string message)
         {
 
@@ -75,7 +75,7 @@ namespace Message.Controllers
             Chat.Messages.Add(newMessage);
             _db.Update(Chat);
             _db.SaveChanges();
-            return RedirectToAction("ChatName",new {name=UserTo.Username});
+            return PartialView("Messages",Chat);
         }
 
     }
