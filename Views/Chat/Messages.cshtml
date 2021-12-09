@@ -1,4 +1,10 @@
 ﻿@model Chat
+<head>
+    <script>
+        var messageBody = document.querySelector('#chat');
+        messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+    </script>
+</head>
     @if (Model != null)
     {
         @foreach (var item in Model.Messages)

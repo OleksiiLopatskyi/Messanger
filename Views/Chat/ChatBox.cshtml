@@ -24,18 +24,13 @@
 <head>
     <script>
         $(document).ready(function (e) {
+            var messageBody = document.querySelector('#chat');
+            messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
             $('#SendMessageButton').click(function (e) {
                 e.preventDefault();
                 var text = $('#MessageText').val();
+                text = encodeURIComponent(text);
                 $('#chat').load('@Url.Action("SendMessage")?message=' + text);
-               @* $.ajax({
-                    url: 'url',
-                    dataType: 'html',
-                    method:"POST",
-                    success: function (data) {
-                        $('#main').html(data);
-                    }
-                });*@
             });
         });
     </script>
@@ -67,12 +62,12 @@
     }
     @if (Model.Messages.Count == 0)
     {
-        <div id="results"></div>
+        <ul style="scroll-behavior: smooth;" id="chat"></ul>
 
     }
     else
     {
-        <ul id="chat">
+        <ul style="scroll-behavior: smooth;" id="chat">
             @if (Model != null)
             {
                 @foreach (var item in Model.Messages)
@@ -117,7 +112,7 @@
     <footer>
         <form id="SendForm" asp-action="SendMessage">
             <textarea id="MessageText" required name="message" placeholder="Type your message"></textarea>
-            <input class="button" id="SendMessageButton" value="Send" />
+            <button id="SendMessageButton" type="button" class="btn btn-primary">Send</button>
         </form>
     </footer>
 </main>

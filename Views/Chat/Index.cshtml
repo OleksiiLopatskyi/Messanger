@@ -36,8 +36,6 @@
                    var userName = $(this).attr('id');
                    userName = encodeURIComponent(userName);
                    $('#results').load('@Url.Action("ChatName")?name=' + userName);
-@*                   $('#results').load('@Url.Action("")');
-*@
                });
            });
        });
