@@ -88,9 +88,8 @@
     </ul>
     <form asp-action="SendMessage" asp-controller="Chat">
         <footer>
-            <textarea required name="message" placeholder="Type your message"></textarea>
-            <button class="button" type="submit"><span id="SendText">Send</span></button>
+            <textarea id="MessageText" required name="message" placeholder="Type your message"></textarea>
+            <button class="button" id="SendMessage" >Send</button>
         </footer>
     </form>
-
 </main>

@@ -30,7 +30,7 @@ namespace Message.Controllers
             };
             return View(model);
         }
-        [Route("[controller]/[action]/{name}")]
+       // [Route("[controller]/[action]/{name}")]
         public async Task<IActionResult> ChatName(string name)
         {
             if (name == null)
@@ -58,7 +58,7 @@ namespace Message.Controllers
                 return View("Index",model);
             }
            
-            return View("Index",model);
+            return PartialView("ChatBox",model.Chat);
         }
         [HttpPost]
         public  IActionResult SendMessage(string message)
