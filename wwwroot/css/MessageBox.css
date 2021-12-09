@@ -70,6 +70,7 @@ aside li {
 
     aside li:hover {
         background-color: #5e616a;
+        cursor:pointer;
     }
 
 h2, h3 {

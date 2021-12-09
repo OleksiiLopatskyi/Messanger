@@ -1,0 +1,43 @@
+﻿@model Chat
+<head>
+    <script>
+        var messageBody = document.querySelector('#chat');
+        messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+    </script>
+</head>
+    @if (Model != null)
+    {
+        @foreach (var item in Model.Messages)
+        {
+            @if (item.To.Username != User.Identity.Name)
+            {
+                <li class="me">
+                    <div class="entete">
+                        <span class="status blue"></span>
+                        <h3>@item.Date</h3>
+                        <h2>@item.From.Username</h2>
+                    </div>
+                    <div class="triangle"></div>
+                    <div class="message">
+                        @item.Text
+                    </div>
+                </li>
+
+            }
+            else
+            {
+                <li class="you" style="text-align:left">
+                    <div class="entete">
+                        <span class="status green">
+                        </span>
+                        <h2>@item.From.Username</h2>
+                        <h3>@item.Date</h3>
+                    </div>
+                    <div class="triangle"></div>
+                    <div class="message">
+                        @item.Text
+                    </div>
+                </li>
+            }
+        }
+    }
